@@ -10,4 +10,10 @@ public interface OrderDao {
 	
 	public List<Order> showAllOrder();
 	
+	public Order searchByid(int orderId);
+	
+	public int deleteById(int orderId);
+	
+	public int updateAddrById (String shippingAddr, int orderId);
+	
 }
