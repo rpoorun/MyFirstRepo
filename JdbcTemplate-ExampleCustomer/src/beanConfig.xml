@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+
+<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<property name="locations" value="classpath:com/accenture/dao/db.properties"></property>
+</bean>
+
+<bean id="dataSource" class ="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<property name="driverClassName" value = "${db.driverName}"/>
+	<property name="url" value="${db.url}"/>
+	<property name = "username" value = "${db.username}"/>
+	<property name = "password" value = "${db.password}"/>
+</bean>
+
+<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+	<property name="dataSource" ref="dataSource"/>
+</bean>
+
+<bean id="tableCustomer" class="com.accenture.beans.Table">
+	<property name="tableName" value = "${tb.name}"/>
+	<property name="col1" value = "${tb.col1}"/>
+	<property name="col2"  value = "${tb.col2}"/>
+	<property name="col3"  value = "${tb.col3}"/>
+	<property name="col4"  value = "${tb.col4}"/>
+</bean>
+
+
+<bean id="dao" class="com.accenture.dao.CustomerDao">
+	<constructor-arg ref = "jdbcTemplate"/>
+</bean>
+
+<bean id="service" class="com.accenture.services.CustomerService">
+	<constructor-arg ref="dao"/>
+</bean>
+
+
+</beans>
